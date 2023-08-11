@@ -38,10 +38,24 @@ circleMouseFollower();
 firstPageAnim();
 
 document.querySelectorAll(".elem").forEach(function (elem) {
+  var diffrotate = 0;
+  var rotate = 0;
+  elem.addEventListener("mouseleave", function (details) {
+    gsap.to(elem.querySelector("img"), {
+      opacity: 0,
+      ease: Power3,
+    });
+  });
   elem.addEventListener("mousemove", function (details) {
+    var diff = details.clientY - elem.getBoundingClientRect().top;
+    diffrotate = details.clientX - rotate;
+    rotate = details.clientX;
     gsap.to(elem.querySelector("img"), {
       opacity: 1,
-      ease: Power1,
+      ease: Power3,
+      top: diff,
+      left: details.clientX,
+      rotate: gsap.utils.clamp(-20, 20, diffrotate * 0.5),
     });
   });
 });
